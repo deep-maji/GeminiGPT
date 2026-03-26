@@ -24,11 +24,11 @@ export const ChatProvider = ({ children }) => {
     }
   };
 
-  const chatWithAi = async ({ prompt, chat_id }) => {
+  const chatWithAi = async ({ prompt, chat_id, history }) => {
     try {
       let res = await api.post(
         "/api/v1/chat",
-        { prompt, chat_id },
+        { prompt, chat_id, history },
         {
           method: "POST",
           headers: {
@@ -45,7 +45,7 @@ export const ChatProvider = ({ children }) => {
 
   const getChatByID = async (chatID) => {
     console.log(chatID);
-    
+
     try {
       let res = await api.get(`/api/v1/chat/${chatID}`, {
         method: "GET",

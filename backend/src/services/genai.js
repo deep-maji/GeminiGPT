@@ -8,11 +8,34 @@ const models = {
   "gemma-3-1b-it": "gemma-3-1b-it",
 }
 
-export async function googleGenAiMain({ prompt }) {
-  const response = await ai.models.generateContent({
+// Old without histroy
+// export async function googleGenAiMain({ prompt }) {
+//   const response = await ai.models.generateContent({
+//     model: models["gemma-3-1b-it"],
+//     contents: prompt,
+//   });
+//   return response;
+// }
+
+// With histroy
+export async function googleGenAiMain({ prompt, history }) {
+
+  let currHistroy = []
+
+  // histroy is empty for first message
+  if (history.length !== 0) {
+    currHistroy = history.map((ele) => ({ role: ele.role, parts: [{ text: ele.content }] }));
+  }
+
+  const chat = ai.chats.create({
     model: models["gemma-3-1b-it"],
-    contents: prompt,
+    history: currHistroy,
   });
+
+  const response = await chat.sendMessage({
+    message: prompt,
+  });
+
   return response;
 }
 

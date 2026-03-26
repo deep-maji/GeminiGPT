@@ -1,18 +1,18 @@
 import ExpressError from "../utils/ExpressError.js";
 import { googleGenAiMain, genarateTitleOfTheChat, streamingChat } from "../services/genai.js";
 import Chats from "../models/chats.model.js";
-import httpStatus from "http-status"
+import httpStatus, { status } from "http-status"
 import extractTitle from "../utils/getTitle.js";
 
 export const chat = async (req, res, next) => {
 
-  const { prompt, chat_id } = req.body;
+  const { prompt, chat_id, history } = req.body;
   const { id, email } = req.userData;
   if (!prompt || !chat_id) {
     throw new ExpressError(404, "Prompt is required!");
   }
 
-  const response = await googleGenAiMain({ prompt });
+  const response = await googleGenAiMain({ prompt, history });
   const contents = response.text;
 
   const usermessage = {
@@ -59,4 +59,11 @@ export const getChatById = async (req, res, next) => {
   const { id: chatId } = req.params;
   const chat = await Chats.findOne({ user_id: id, _id: chatId });
   res.status(httpStatus.OK).json({ response: chat });
+}
+
+export const deleteChat = async (req, res, next) => {
+  const { id, email } = req.userData;
+  const { id: chatId } = req.params;
+  await Chats.findByIdAndDelete({ user_id: id, _id: chatId });
+  res.status(httpStatus.OK).json({ message: "Chat removed successfully.", status: httpStatus.OK });
 }

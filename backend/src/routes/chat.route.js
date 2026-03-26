@@ -1,5 +1,5 @@
 import express from "express";
-import { chat, getAllChatHistroy, getChatById } from "../controller/chats.controller.js";
+import { chat, getAllChatHistroy, getChatById, deleteChat } from "../controller/chats.controller.js";
 import wrapAsyn from "../utils/wrapAsyn.js";
 import { verifyToken } from "../utils/jwt.util.js";
 const router = express.Router({ mergeParams: true });
@@ -12,5 +12,8 @@ router.route("/chat")
 
 router.route("/chat/:id")
   .get(verifyToken, wrapAsyn(getChatById));
+
+router.route("/chat/:id")
+  .delete(verifyToken, wrapAsyn(deleteChat));
 
 export default router;

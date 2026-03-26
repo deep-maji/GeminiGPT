@@ -37,7 +37,7 @@ function ChatPage() {
     try {
       let res = await getChatByID(chatID);
       console.log(res.data);
-      
+
       setChat_id(res.data.response.chat_id);
       setChatHistroy((prev) =>
         prev.map((ele) => ({
@@ -59,6 +59,9 @@ function ChatPage() {
     handleChatbyID,
   };
 
+  console.log(chats);
+  
+
   const handleChat = async () => {
     try {
       let userPrompt;
@@ -68,11 +71,13 @@ function ChatPage() {
         userPrompt = {
           prompt,
           chat_id: chatUUid,
+          history: chats,
         };
       } else {
         userPrompt = {
           prompt,
           chat_id: chat_id,
+          history: chats,
         };
       }
       let res = await chatWithAi(userPrompt);
