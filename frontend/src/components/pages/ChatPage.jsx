@@ -13,7 +13,7 @@ function ChatPage() {
   const [chats, setChats] = useState([]);
   const [prompt, setPrompt] = useState("");
   const [chatsHistroy, setChatHistroy] = useState([]);
-  const [latestChat, setLatestChat] = useState("");
+  const [loading, setLoading] = useState(false);
   const { getAllChats, getChatByID, chatWithAi } = useContext(ChatContext);
 
   const handleChatHistroy = async () => {
@@ -51,6 +51,7 @@ function ChatPage() {
 
   const handleChat = async () => {
     try {
+      setLoading(true);
       let userPrompt;
       if (!chat_id) {
         const chatUUid = uuidv4();
@@ -68,7 +69,11 @@ function ChatPage() {
         };
       }
       let res = await chatWithAi(userPrompt);
-      setChats(res.data.response.messages);
+
+      setChats((prev) => {
+        return [...prev, res.data.response];
+      });
+
       const histroyForChat = {
         title: res.data.response.title,
         _id: res.data.response._id,
@@ -80,8 +85,9 @@ function ChatPage() {
           selected: res.data.response._id === ele._id,
         })),
       );
-      // console.log(res.data.response.messages);
+
       console.log(res.data.response);
+      setLoading(false);
     } catch (error) {
       console.dir("Chat error : ", error);
     }
@@ -141,6 +147,8 @@ function ChatPage() {
     setPrompt,
     handleChat,
     handleForm,
+    loading,
+    setLoading,
   };
 
   return (

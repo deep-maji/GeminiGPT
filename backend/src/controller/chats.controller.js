@@ -26,8 +26,10 @@ export const chat = async (req, res, next) => {
   }
 
   const chat = await Chats.findOne({ chat_id });
+  let title;
+  let save;
   if (!chat) { // first chat
-    let title = await genarateTitleOfTheChat({ contents });
+    title = await genarateTitleOfTheChat({ contents });
     title = extractTitle(title.text);
     const chatPayload = {
       chat_id,
@@ -37,15 +39,18 @@ export const chat = async (req, res, next) => {
     }
 
     const newChat = new Chats(chatPayload);
-    const save = await newChat.save();
-    res.status(httpStatus.CREATED).json({ response: save });
+    save = await newChat.save();
   }
   else { // else chat already exsist
+    title = chat.title;
     chat.messages.push(usermessage);
     chat.messages.push(modelmessage);
-    await chat.save();
-    res.status(httpStatus.OK).json({ response: chat });
+    save = await chat.save();
   }
+
+  modelmessage.title = title;
+  modelmessage._id = save._id;
+  res.status(httpStatus.OK).json({ response: modelmessage });
 }
 
 export const getAllChatHistroy = async (req, res, next) => {

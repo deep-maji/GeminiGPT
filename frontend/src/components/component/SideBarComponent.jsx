@@ -1,11 +1,8 @@
 import styles from "../../styles/Home.module.css";
-import { useState, useEffect, useContext } from "react";
-import { ChatContext } from "../../context/ChatContext";
 
 import RateReviewTwoToneIcon from "@mui/icons-material/RateReviewTwoTone";
 import IconButton from "@mui/material/IconButton";
 import DeleteTwoToneIcon from "@mui/icons-material/DeleteTwoTone";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 
 import Markdown from "react-markdown";
 
