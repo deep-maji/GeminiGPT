@@ -1,13 +1,11 @@
 import { useContext, useEffect, useState } from "react";
-import styles from "../../styles/Home.module.css";
-import ReactMarkdown from "react-markdown";
+import { v4 as uuidv4 } from "uuid";
 
 import WithAuth from "../../utils/WithAuth";
 import SideBarComponent from "../component/SideBarComponent";
 import ChatWindowComponent from "../component/ChatWindowComponent";
 
-import { v4 as uuidv4 } from "uuid";
-
+import styles from "../../styles/Home.module.css";
 import { ChatContext } from "../../context/ChatContext";
 
 function ChatPage() {
@@ -15,9 +13,8 @@ function ChatPage() {
   const [chats, setChats] = useState([]);
   const [prompt, setPrompt] = useState("");
   const [chatsHistroy, setChatHistroy] = useState([]);
+  const [latestChat, setLatestChat] = useState("");
   const { getAllChats, getChatByID, chatWithAi } = useContext(ChatContext);
-
-  console.log(chat_id);
 
   const handleChatHistroy = async () => {
     try {
@@ -51,16 +48,6 @@ function ChatPage() {
       console.dir(error);
     }
   };
-
-  const sideBarProps = {
-    chatsHistroy,
-    setChatHistroy,
-    handleChatHistroy,
-    handleChatbyID,
-  };
-
-  console.log(chats);
-  
 
   const handleChat = async () => {
     try {
@@ -135,6 +122,16 @@ function ChatPage() {
     e.preventDefault();
     displayUserPrompt();
     handleChat();
+  };
+
+  const sideBarProps = {
+    chatsHistroy,
+    setChatHistroy,
+    handleChatHistroy,
+    handleChatbyID,
+    setChats,
+    setChat_id,
+    setChatHistroy,
   };
 
   const chatWindowProps = {

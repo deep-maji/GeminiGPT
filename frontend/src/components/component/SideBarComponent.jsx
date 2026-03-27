@@ -15,7 +15,19 @@ export default function SideBarComponent({ sideBarProps }) {
       <div className={styles.sideNavbarWrapper}>
         <div className={styles.sideNavbar}>
           <div>GeminiGPT</div>
-          <IconButton sx={{ color: "white" }}>
+          <IconButton
+            sx={{ color: "white" }}
+            onClick={() => {
+              sideBarProps.setChats([]);
+              sideBarProps.setChat_id("");
+              sideBarProps.setChatHistroy((prev) =>
+                prev.map((ele) => ({
+                  ...ele,
+                  selected: false,
+                })),
+              );
+            }}
+          >
             <RateReviewTwoToneIcon></RateReviewTwoToneIcon>
           </IconButton>
         </div>
@@ -36,7 +48,7 @@ export default function SideBarComponent({ sideBarProps }) {
                 <Markdown>{ele.title}</Markdown>
               </h6>
               <IconButton sx={{ padding: 0, color: "white" }}>
-                <MoreHorizIcon></MoreHorizIcon>
+                <DeleteTwoToneIcon></DeleteTwoToneIcon>
               </IconButton>
             </div>
           );
