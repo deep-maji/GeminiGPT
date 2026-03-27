@@ -24,11 +24,11 @@ export const ChatProvider = ({ children }) => {
     }
   };
 
-  const chatWithAi = async ({ prompt, chat_id, history }) => {
+  const chatWithAi = async ({ prompt, chat_id }) => {
     try {
       let res = await api.post(
         "/api/v1/chat",
-        { prompt, chat_id, history },
+        { prompt, chat_id },
         {
           method: "POST",
           headers: {
@@ -44,11 +44,24 @@ export const ChatProvider = ({ children }) => {
   };
 
   const getChatByID = async (chatID) => {
-    console.log(chatID);
-
     try {
       let res = await api.get(`/api/v1/chat/${chatID}`, {
         method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+
+      return res;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const deleteChat = async (chatId) => {
+    try {
+      let res = await api.delete(`api/v1/chat/${chatId}`, {
+        method: "DELETE",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -64,6 +77,7 @@ export const ChatProvider = ({ children }) => {
     getAllChats,
     chatWithAi,
     getChatByID,
+    deleteChat,
   };
 
   return <ChatContext.Provider value={data}>{children}</ChatContext.Provider>;

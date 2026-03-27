@@ -11,10 +11,12 @@ import { ChatContext } from "../../context/ChatContext";
 function ChatPage() {
   const [chat_id, setChat_id] = useState("");
   const [chats, setChats] = useState([]);
+  const [reply, setReply] = useState("");
   const [prompt, setPrompt] = useState("");
   const [chatsHistroy, setChatHistroy] = useState([]);
   const [loading, setLoading] = useState(false);
-  const { getAllChats, getChatByID, chatWithAi } = useContext(ChatContext);
+  const { getAllChats, getChatByID, chatWithAi, deleteChat } =
+    useContext(ChatContext);
 
   const handleChatHistroy = async () => {
     try {
@@ -59,17 +61,16 @@ function ChatPage() {
         userPrompt = {
           prompt,
           chat_id: chatUUid,
-          history: chats,
         };
       } else {
         userPrompt = {
           prompt,
           chat_id: chat_id,
-          history: chats,
         };
       }
       let res = await chatWithAi(userPrompt);
 
+      setReply(res.data.response.content);
       setChats((prev) => {
         return [...prev, res.data.response];
       });
@@ -130,6 +131,17 @@ function ChatPage() {
     handleChat();
   };
 
+  const deleteChatById = async (id) => {
+    try {
+      let res = await deleteChat(id);
+      setChatHistroy((prev) => {
+        return prev.filter((ele) => ele._id !== id);
+      });
+    } catch (error) {
+      console.log("chat delete error : ", error);
+    }
+  };
+
   const sideBarProps = {
     chatsHistroy,
     setChatHistroy,
@@ -138,6 +150,7 @@ function ChatPage() {
     setChats,
     setChat_id,
     setChatHistroy,
+    deleteChatById,
   };
 
   const chatWindowProps = {
@@ -149,6 +162,7 @@ function ChatPage() {
     handleForm,
     loading,
     setLoading,
+    reply,
   };
 
   return (

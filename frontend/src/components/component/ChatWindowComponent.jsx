@@ -21,6 +21,7 @@ export default function ChatWindowComponent({ chatWindowProps }) {
         modeluserchatRef.current.scrollHeight;
     }
   }, [chatWindowProps.chats]);
+
   return (
     <>
       <div className={styles.mainchatNavbar}>

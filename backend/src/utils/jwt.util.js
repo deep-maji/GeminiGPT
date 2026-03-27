@@ -4,7 +4,7 @@ import ExpressError from "./ExpressError.js";
 
 const genarateToken = (payload) => {
   const privateKey = process.env.JWT_KEY;
-  return jwt.sign(payload, privateKey, { expiresIn: "24h" });
+  return jwt.sign(payload, privateKey, { expiresIn: "72h" });
 }
 
 const verifyToken = async (req, res, next) => {

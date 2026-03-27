@@ -44,7 +44,12 @@ export default function SideBarComponent({ sideBarProps }) {
               >
                 <Markdown>{ele.title}</Markdown>
               </h6>
-              <IconButton sx={{ padding: 0, color: "white" }}>
+              <IconButton
+                onClick={() => {
+                  sideBarProps.deleteChatById(ele._id);
+                }}
+                sx={{ padding: 0, color: "white" }}
+              >
                 <DeleteTwoToneIcon></DeleteTwoToneIcon>
               </IconButton>
             </div>

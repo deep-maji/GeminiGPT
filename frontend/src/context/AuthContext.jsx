@@ -21,7 +21,7 @@ export function AuthProvider({ children }) {
 
       if (response.status === httpStatus.OK) {
         localStorage.setItem("token", response.data.token);
-        localStorage.setItem("exp", Date.now() + 3600000);
+        localStorage.setItem("exp", Date.now() + 259200000);
         route("/chats");
       }
 

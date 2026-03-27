@@ -6,11 +6,14 @@ import extractTitle from "../utils/getTitle.js";
 
 export const chat = async (req, res, next) => {
 
-  const { prompt, chat_id, history } = req.body;
+  const { prompt, chat_id } = req.body;
   const { id, email } = req.userData;
   if (!prompt || !chat_id) {
     throw new ExpressError(404, "Prompt is required!");
   }
+
+  const chat = await Chats.findOne({ chat_id });
+  const history = chat ? chat.messages : [];
 
   const response = await googleGenAiMain({ prompt, history });
   const contents = response.text;
@@ -25,7 +28,6 @@ export const chat = async (req, res, next) => {
     content: contents,
   }
 
-  const chat = await Chats.findOne({ chat_id });
   let title;
   let save;
   if (!chat) { // first chat
