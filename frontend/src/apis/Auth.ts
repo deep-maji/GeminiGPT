@@ -2,7 +2,7 @@ import axios from "axios";
 import type { AxiosInstance, AxiosResponse } from "axios";
 import type { LoginUser, RegisterUser, VerifyUser } from "../types/AuthTypes";
 
-const BASE_URL = "http://localhost:3000";
+const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
 const client: AxiosInstance = axios.create({
   baseURL: BASE_URL
