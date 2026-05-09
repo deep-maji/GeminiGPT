@@ -143,7 +143,8 @@ const login = async (req, res, next) => {
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       secure: true,
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7Days
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7Days,
+      sameSite: "none"
     })
 
     return res.status(httpStatus.OK).json({ message: "Loged In!", user: { email, verified: user.verified }, accessToken });
