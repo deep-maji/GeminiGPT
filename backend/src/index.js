@@ -16,6 +16,7 @@ const app = express();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.set("trust proxy", 1);
 app.use(cros({
   origin: [
     "http://localhost:5173",
