@@ -1,25 +1,39 @@
-import "dotenv/config";
+import config from "./config/config.js";
 import express from "express";
-import chatRoute from "./routes/chat.route.js";
+import ThreadRoute from "./routes/thread.route.js";
 import streamingChatRoute from "./routes/StreamingChat.route.js";
 import ExpressError from "./utils/ExpressError.js";
-import connectToDB from "./db/connectDB.js";
+import connectToDB from "./config/db/connectDB.js";
 import usersRoute from "./routes/users.route.js";
 import cros from "cors";
+import cookieParser from "cookie-parser";
+
+import Users from "./models/users.model.js";
+
+import { modelNames } from "./services/genai.js";
 
 const app = express();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(cros());
+app.use(cros({
+  origin: "http://localhost:5173",
+  credentials: true
+}));
+app.use(cookieParser());
 
 // login & register route
 app.use("/api/v1/user", usersRoute);
 // chat route
-app.use("/api/v1/", chatRoute);
+app.use("/api/v1/", ThreadRoute);
 // Api v2 Streaimg chat
 app.use("/api/v2/", streamingChatRoute);
 
+
+app.get("/name", async (req, res) => {
+  await modelNames();
+  res.json({ ok: "ok" });
+})
 
 // Handel not matched root
 app.all("/*splat", (req, res, next) => {
@@ -29,11 +43,11 @@ app.all("/*splat", (req, res, next) => {
 // Error handling middleware
 app.use((err, req, res, next) => {
   let { message = "Something wrong in our side", status = 500 } = err;
-  console.log(err);
+  console.log(err); // need to remove in Prod.
   res.status(status).json({ status, message: message });
 })
 
-app.listen(process.env.PORT, () => {
-  console.log(`Server is listiing on port ${process.env.PORT}`);
+app.listen(config.PORT, () => {
+  console.log(`Server is listing at PORT ${config.PORT}`);
   connectToDB();
 })

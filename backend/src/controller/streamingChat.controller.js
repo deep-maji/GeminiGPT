@@ -1,6 +1,6 @@
 import ExpressError from "../utils/ExpressError.js";
-import { genarateTitleOfTheChat, streamingChat } from "../services/genai.js";
-import Chats from "../models/chats.model.js";
+import { genarateTitleOfTheThread, streamingChat } from "../services/genai.js";
+import Threads from "../models/threads.model.js";
 import httpStatus from "http-status"
 import extractTitle from "../utils/getTitle.js";
 

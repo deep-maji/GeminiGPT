@@ -1,0 +1,56 @@
+.tonal-shift {
+  transition: background-color 0.3s ease;
+}
+
+/* ::-webkit-scrollbar {
+  width: 4px;
+} */
+
+/* ::-webkit-scrollbar-track {
+  background: transparent;
+} */
+
+/* ::-webkit-scrollbar-thumb {
+  background: #25252b;
+  border-radius: 10px;
+} */
+
+.input-inside-container::-webkit-scrollbar {
+  display: none;
+}
+
+header::-webkit-scrollbar {
+  display: none;
+}
+
+.markdown-body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.markdown-body pre {
+  max-width: 100%;
+  overflow-x: auto;
+  white-space: pre;
+  padding: 16px;
+  border-radius: 12px;
+  background: #111;
+}
+
+.markdown-body code {
+  word-break: break-word;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #25252b;
+  border-radius: 10px;
+}
