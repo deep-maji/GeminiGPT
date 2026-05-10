@@ -12,14 +12,6 @@ const transporter = nodemailer.createTransport({
   }
 })
 
-transporter.verify((error, success) => {
-  if (error) {
-    console.error('Error connecting to email server:', error);
-  } else {
-    console.log('Email server is ready to send messages');
-  }
-});
-
 export const sendEmail = async (to, subject, text, html) => {
   try {
     const info = await transporter.sendMail({
@@ -36,3 +28,15 @@ export const sendEmail = async (to, subject, text, html) => {
     console.log("Error sending email : ", error);
   }
 }
+
+const emailService = () => {
+  transporter.verify((error, success) => {
+    if (error) {
+      console.error('Error connecting to email server:', error);
+    } else {
+      console.log('Email server is ready to send messages');
+    }
+  });
+}
+
+export default emailService;

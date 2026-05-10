@@ -11,6 +11,7 @@ import cookieParser from "cookie-parser";
 import Users from "./models/users.model.js";
 
 import { modelNames } from "./services/genai.js";
+import emailService from "./services/mail.service.js";
 
 const app = express();
 
@@ -53,4 +54,5 @@ app.use((err, req, res, next) => {
 app.listen(config.PORT, () => {
   console.log(`Server is listing at PORT ${config.PORT}`);
   connectToDB();
+  emailService();
 })
