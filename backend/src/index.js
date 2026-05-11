@@ -51,8 +51,8 @@ app.use((err, req, res, next) => {
   res.status(status).json({ status, message: message });
 })
 
-app.listen(config.PORT, () => {
+app.listen(config.PORT, async () => {
   console.log(`Server is listing at PORT ${config.PORT}`);
-  connectToDB();
-  emailService();
+  await connectToDB();
+  await emailService();
 })

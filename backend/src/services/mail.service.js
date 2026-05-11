@@ -31,14 +31,13 @@ export const sendEmail = async (to, subject, text, html) => {
   }
 }
 
-const emailService = () => {
-  transporter.verify((error, success) => {
-    if (error) {
-      console.error('Error connecting to email server:', error);
-    } else {
-      console.log('Email server is ready to send messages');
-    }
-  });
-}
+const emailService = async () => {
+  try {
+    await transporter.verify();
+    console.log("Email server is ready");
+  } catch (err) {
+    console.error(err);
+  }
+};
 
 export default emailService;
