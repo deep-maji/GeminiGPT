@@ -15,21 +15,43 @@ const transporter = nodemailer.createTransport({
 });
 
 export const sendEmail = async (to, subject, text, html) => {
-  try {
-    const info = await transporter.sendMail({
+
+  await new Promise((res, rej) => {
+    transporter.sendMail({
       from: `"Gemini-GPT" <${config.GOOGLE_USER}>`,
       to,
       subject,
       html,
+    }, (err, info) => {
+      if (err) {
+        console.log("Error sending email : ", error);
+        rej(err);
+      }
+      else {
+        res(info)
+        console.log("Message sent : %s", info.messageId);
+        console.log("Preview URL : %s", nodemailer.getTestMessageUrl(info));
+      }
     })
-
-    console.log("Message sent : %s", info.messageId);
-    console.log("Preview URL : %s", nodemailer.getTestMessageUrl(info));
-
-  } catch (error) {
-    console.log("Error sending email : ", error);
-  }
+  })
 }
+
+// export const sendEmail = async (to, subject, text, html) => {
+//   try {
+//     const info = await transporter.sendMail({
+//       from: `"Gemini-GPT" <${config.GOOGLE_USER}>`,
+//       to,
+//       subject,
+//       html,
+//     })
+
+//     console.log("Message sent : %s", info.messageId);
+//     console.log("Preview URL : %s", nodemailer.getTestMessageUrl(info));
+
+//   } catch (error) {
+//     console.log("Error sending email : ", error);
+//   }
+// }
 
 const emailService = async () => {
   try {
