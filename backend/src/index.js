@@ -53,6 +53,6 @@ app.use((err, req, res, next) => {
 
 app.listen(config.PORT, async () => {
   console.log(`Server is listing at PORT ${config.PORT}`);
-  await connectToDB();
   await emailService();
+  await connectToDB();
 })
