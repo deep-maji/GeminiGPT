@@ -16,7 +16,12 @@ const router = createBrowserRouter([
     path: "/",
     element: <LayOut />,
     children: [
-      { index: true, element: <Home /> },
+      {
+        element: <PersistentLogin />,
+        children: [
+          { path: "/", index: true, element: <Home /> }
+        ]
+      },
 
       // Protected routes group
       {

@@ -1,16 +1,27 @@
 import { Link } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
 
 export default function Home() {
+
+  const auth = useAuth();
+  console.log(auth);
+
 
   return (
     <div className="bg-surface text-on-surface overflow-x-hidden">
       {/* <!-- Top Navigation Bar --> */}
-      <nav className="fixed top-0 w-full z-50 bg-[#0e0e10]/80 backdrop-blur-xl flex justify-between items-center px-8 h-16 font-manrope tracking-tight">
-        <div className="text-xl font-bold tracking-widest text-[#e6e4ec]">Ethereal AI</div>
+      <nav className="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl flex justify-between items-center px-8 h-16 font-manrope tracking-tight">
+        <div className="text-xl font-bold tracking-widest text-on-surface">Ethereal AI</div>
         <div className="flex items-center gap-4">
-          <button className="p-2 text-[#c0c1ff] hover:opacity-80 transition-all">
-            <Link to={'/auth'}><span className="material-symbols-outlined" data-icon="account_circle">account_circle</span></Link>
-          </button>
+          {
+            auth.auth === null ?
+              <button className="px-4 py-1 border-2 rounded-4xl hover:scale-105 transition-all cursor-pointer bg-primary-container duration-300 border-primary-container">
+                <Link to={"/auth"}>Login / Register</Link>
+              </button> :
+              <button className="p-2 text-[#c0c1ff] hover:opacity-80 transition-all">
+                <Link to={'/auth'}><span className="material-symbols-outlined" data-icon="account_circle">account_circle</span></Link>
+              </button>
+          }
         </div>
       </nav>
       <main className="relative pt-16">

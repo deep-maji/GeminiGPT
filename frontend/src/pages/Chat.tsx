@@ -1,5 +1,5 @@
 import { creatNewMessage, deleteThread, getAllThreadHistroy, getChatById } from "../apis/Chat.api";
-import { useNavigate, useLocation, useParams } from "react-router-dom";
+import { useNavigate, useLocation, useParams, Link } from "react-router-dom";
 import type { ChatMessage, ChatsHistroy } from "../types/AuthTypes";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { TailSpin } from "react-loader-spinner";
@@ -360,13 +360,13 @@ export default function Chat() {
           <span className="material-symbols-outlined text-primary-dim text-xs" data-icon="chevron_right">chevron_right</span>
         </div> */}
         <div className="mb-5 px-2 flex items-center">
-          <h1 className="text-lg font-semibold text-[#e6e4ec] tracking-tight">
-            <i className="fa-solid fa-book-open"></i>
+          <h1 className="text-lg font-semibold text-on-surface tracking-tight">
+            <Link to={"/"}><i className="fa-solid fa-book-open"></i></Link>
           </h1>
         </div>
         <nav className="flex flex-col gap-1 flex-1 min-h-0" onClick={() => setMobileMenuOpen(false)}>
           {/* <!-- Active State: New Chat --> */}
-          <button onClick={handleNagivateToNewThread} className="flex items-center gap-3 py-1 px-2 text-[#e6e4ec]/40 hover:bg-surface-container hover:text-[#e6e4ec] rounded-lg transition-all">
+          <button onClick={handleNagivateToNewThread} className="flex items-center gap-3 py-1 px-2 text-on-surface/50 hover:bg-surface-container hover:text-on-surface rounded-lg transition-all">
             <span className="material-symbols-outlined" data-icon="add_circle">add_circle</span>
             <span>New Chat</span>
           </button>
@@ -374,7 +374,7 @@ export default function Chat() {
           {/* <!-- Recent Conversations List (History Expansion) --> */}
           <div className="mt-8 px-2 flex flex-col flex-1 min-h-0">
             <span
-              className="text-[10px] uppercase tracking-widest text-on-surface-variant/40 font-bold mb-4 block">Recent Threads</span>
+              className="text-[10px] uppercase tracking-widest text-on-surface-variant/90 font-bold mb-4 block">Recent Threads</span>
             <div className="flex flex-col gap-1 py-1 overflow-y-auto min-h-0">
               {
                 chatHistroy.length !== 0 ? chatHistroy.map((ele) => {
@@ -422,7 +422,7 @@ export default function Chat() {
             {/* <button className="flex items-center gap-3 px-4 py-2 text-[#e6e4ec]/30 hover:text-[#e6e4ec] transition-all text-xs">
               <span className="material-symbols-outlined text-sm" data-icon="help_outline">help_outline</span> Help
             </button> */}
-            <button onClick={handleLogout} className="flex items-center gap-3 px-4 py-2 text-[#e6e4ec]/30 hover:text-[#e6e4ec] transition-all text-xs">
+            <button onClick={handleLogout} className="flex items-center gap-3 px-4 py-2 text-on-surface/50 hover:text-on-surface transition-all text-xs">
               <span className="material-symbols-outlined text-sm" data-icon="logout">logout</span>Logout
             </button>
           </div>
