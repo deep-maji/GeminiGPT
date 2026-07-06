@@ -60,10 +60,13 @@ function App() {
   useEffect(() => {
     const htmlTag = window.document.querySelector("[data-theme]");
 
+    console.log(themeContext);
+    
+
     if (themeContext) {
       htmlTag?.setAttribute("data-theme", themeContext?.theme);
     }
-  }, [])
+  }, [themeContext?.theme])
 
   return (
     <>
