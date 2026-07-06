@@ -10,6 +10,8 @@ import IsVerify from './utils/IsVerify'
 import Verify from "../src/pages/Verify"
 import PersistentLogin from './utils/PersistentLogin'
 import IsAuthRequired from './utils/IsAuthRequired'
+import { useContext, useEffect } from 'react'
+import ThemeContext from './contexts/ThemeContext'
 
 const router = createBrowserRouter([
   {
@@ -52,6 +54,16 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
+
+  const themeContext = useContext(ThemeContext);
+
+  useEffect(() => {
+    const htmlTag = window.document.querySelector("[data-theme]");
+
+    if (themeContext) {
+      htmlTag?.setAttribute("data-theme", themeContext?.theme);
+    }
+  }, [])
 
   return (
     <>

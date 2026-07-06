@@ -433,7 +433,7 @@ export default function Chat() {
 
         {threadError
           ?
-          <div className="absolute top-10 left-1/2 -translate-x-1/2 -translate-y-1/2 p-3 text-sm text-fg-danger-strong rounded-base bg-on-error transition-all rounded-2xl" role="alert">
+          <div className="absolute top-10 left-1/2 -translate-x-1/2 -translate-y-1/2 p-3 text-sm text-fg-danger-strong rounded-base bg-on-error-container text-on-error transition-all rounded-2xl" role="alert">
             <span className="font-medium"><i className="m-1 fa-solid fa-triangle-exclamation" style={{ color: "rgb(203, 11, 11)" }}></i>Unable </span>to load conversation
           </div>
           :
