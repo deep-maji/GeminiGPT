@@ -3,7 +3,7 @@ import { useNavigate, useLocation, useParams, Link } from "react-router-dom";
 import type { ChatMessage, ChatsHistroy } from "../types/AuthTypes";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { TailSpin } from "react-loader-spinner";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useAuth } from "../hooks/useAuth";
 import type { AxiosResponse } from "axios";
 import { logoutUser } from "../apis/Auth";
@@ -12,6 +12,7 @@ import { v4 as uuidv4 } from "uuid";
 import remarkGfm from 'remark-gfm';
 import axios from "axios";
 import "../styles/Chat.css";
+import ThemeContext from "../contexts/ThemeContext";
 
 
 export default function Chat() {
@@ -34,14 +35,25 @@ export default function Chat() {
   const [newThreadId, setNewThreadId] = useState<string | null>(null);
   const [messageLoading, setMessageLoading] = useState<boolean>(false);
   const [threadError, setThreadError] = useState<boolean>(false);
+  // const [themeSetting, setThemeSettings] = useState<"system" | "dark" | "light">("system");
 
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
   const [openModal, setOpenModal] = useState<string | null>(null);
   const [deleteThreadTitle, setDeleteThreadTitle] = useState<string | null>(null);
+  const [settingsModal, setStettingModal] = useState<boolean>(false);
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
 
+  // ThemeContext
+  const themeContext = useContext(ThemeContext);
 
+  const handleTheme = (themeSettings: "system" | "dark" | "light") => {
+    if (themeSettings === "system") {
+      themeContext?.setTheme(window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      return;
+    }
+    themeContext?.setTheme(themeSettings);
+  }
 
   // useEffect and functions
   const handleLogout = async () => {
@@ -291,6 +303,59 @@ export default function Chat() {
   return (
     <div className="relative text-on-surface flex">
 
+      {/* Settings Modal */}
+      <div className={`absolute z-60 ${settingsModal ? "visible" : "invisible"}`}>
+        {/* Back Drop */}
+        <div onClick={() => setStettingModal(false)} className="bg-black/20 w-screen h-screen inset-0 flex justify-center items-center">
+
+          {/* Modal */}
+          <div onClick={(e) => e.stopPropagation()} className="w-150 h-130 bg-surface rounded-2xl flex border">
+            {/* Left */}
+            <div className="w-1/2 h-full rounded-l-2xl border-r">
+              {/* Heading */}
+              <div className="pl-3 pt-4 h-[46.4px]">
+                <span onClick={() => setStettingModal(false)} className="material-symbols-outlined cursor-pointer">
+                  close
+                </span>
+              </div>
+
+              <div className="flex justify-center flex-col w-full p-2 gap-1">
+                <div className="flex rounded-[12px] hover:bg-on-hover cursor-pointer">
+                  <span className="material-symbols-outlined p-1 items-start">
+                    settings_night_sight
+                  </span>
+                  <div className="w-full flex items-center"><h2>General</h2></div>
+                </div>
+                <div className="flex rounded-[12px] hover:bg-on-hover cursor-pointer">
+                  <span className="material-symbols-outlined p-1 items-start">
+                    account_circle
+                  </span>
+                  <div className="w-full flex items-center">Account</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Right */}
+            <div className="w-full h-full rounded-r-2xl">
+              {/* Heading */}
+              <div className="p-3 border-b text-2xl font-semibold">General</div>
+
+              <div className="w-full flex justify-between p-4 border-b">
+                <div><h2>Apperence</h2></div>
+                <div className="bg-surface rounded-[12px] cursor-pointer">
+                  <select className="bg-surface hover:bg-on-hover p-1 rounded-[12px] focus:outline-0" name="theme" id="theme" onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleTheme(e.target.value as "system" | "dark" | "light")}>
+                    <option value="system">System</option>
+                    <option value="dark">Dark</option>
+                    <option value="light">Light</option>
+                  </select>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
       {
         openModal !== null && (<div className="fixed inset-0 z-99 flex items-center justify-center bg-black/20 backdrop-blur-[2px]">
           <div className="w-full max-w-140 rounded-3xl bg-surface-bright px-6 py-5 shadow-2xl">
@@ -419,9 +484,11 @@ export default function Chat() {
         </nav>
         <div className="mt-auto flex flex-col gap-2">
           <div className="flex flex-col gap-1 mt-4">
-            {/* <button className="flex items-center gap-3 px-4 py-2 text-[#e6e4ec]/30 hover:text-[#e6e4ec] transition-all text-xs">
-              <span className="material-symbols-outlined text-sm" data-icon="help_outline">help_outline</span> Help
-            </button> */}
+            <button onClick={() => setStettingModal(true)} className="flex items-center gap-3 px-4 py-2 text-on-surface/50 hover:text-on-surface transition-all text-xs">
+              <span className="material-symbols-outlined">
+                settings
+              </span> Settings
+            </button>
             <button onClick={handleLogout} className="flex items-center gap-3 px-4 py-2 text-on-surface/50 hover:text-on-surface transition-all text-xs">
               <span className="material-symbols-outlined text-sm" data-icon="logout">logout</span>Logout
             </button>

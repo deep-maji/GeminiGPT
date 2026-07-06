@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *)); */
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
 /* Theme tokens */
 @theme {
@@ -57,6 +57,9 @@
   --color-on-secondary-fixed-variant: #5c5b5b;
   --color-primary: #c0c1ff;
   --color-outline-variant: #47474d;
+
+  /* Hover */
+  --color-on-hover: #2a2a2a;
 }
 
 
@@ -142,5 +145,7 @@
   --font-body: "Inter", sans-serif;
   --font-label: "Inter", sans-serif;
 
-
+  /* Hover */
+  --color-on-hover: #d3d3d3;
+  /* --color-on-hover: #2a2a2a; */
 }
